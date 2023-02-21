@@ -1,0 +1,6 @@
+.idea
+.ipynb_checkpoints
+/raw_data
+/cleaned_data
+__pycache__
+config.py
