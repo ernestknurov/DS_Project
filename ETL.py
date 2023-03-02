@@ -7,7 +7,15 @@ from os import mkdir, path
 class ETL:
     def extract(self, paths: dict) -> tuple:
 
-        """Extract data from a given paths"""
+        """
+        Extract data from a given paths.
+
+        Parameters:
+            - paths: dictionary with string path to files
+
+        Return:
+            - tuple of pandas dataframes
+        """
 
         item_cat = pd.read_csv(paths['item_cat'])
         items = pd.read_csv(paths['items'])
@@ -18,7 +26,15 @@ class ETL:
 
     def transform(self, dataset: tuple) -> tuple:
 
-        """Transform given raw data"""
+        """
+         Transform given raw data.
+
+         Parameters:
+             - dataset: tuple of pandas dataframes
+
+         Return:
+             - tuple of transformed dataframes
+        """
 
         item_cat, shops, items, sales_train, test = dataset
 
@@ -31,7 +47,7 @@ class ETL:
         # -Shops
         shops.drop_duplicates('shop_id', inplace=True)
         shops = shops.drop(shops.loc[shops.shop_id < 0].index)
-        shops['shop_name'] = shops['shop_name'].str.replace("!|\?|²|\*|/", '', regex=True)
+        shops['shop_name'] = shops['shop_name'].str.replace("!|\?|²|\*|/| фран", '', regex=True)
         # --dealing with duplicates of shop_name depending on their occurrence in test set
         dup = shops.loc[shops.duplicated("shop_name", keep=False)] \
             .groupby("shop_name") \
@@ -95,7 +111,16 @@ class ETL:
 
     def load(self, dataset: tuple, new_path: str = ".") -> bool:
 
-        """Load transformed data into specified directory (by default current)"""
+        """
+         Load transformed data into specified directory (by default current).
+
+         Parameters:
+             - dataset: tuple of pandas dataframes
+             - new_path: string path to directory where data will be loaded
+
+         Return:
+             - True if function successfully completed
+        """
 
         item_cat, shops, items, sales_train, test = dataset
         new_dir = path.join(new_path, 'cleaned_data')
