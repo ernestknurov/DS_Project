@@ -1,0 +1,8 @@
+.idea
+.ipynb_checkpoints
+.git
+/venv
+/raw_data
+/cleaned_data
+__pycache__
+config.py
