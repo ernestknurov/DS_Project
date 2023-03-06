@@ -95,14 +95,13 @@ class ETL:
         test.reset_index(drop=True, inplace=True)
 
         # -Sales train
-        sales_train.drop(columns='date_block_num', inplace=True)
         sales_train['date'] = pd.to_datetime(sales_train['date'], dayfirst=True)
         sales_train.drop_duplicates(inplace=True, ignore_index=True)
         drop_conditions = (~sales_train.item_id.isin(items['item_id'])) | \
                           (~sales_train.shop_id.isin(shops['shop_id'])) | \
                           (sales_train.item_price < 0.1) | \
-                          (sales_train.item_price > 1e7) | \
-                          (sales_train.item_cnt_day > 1e5) | \
+                          (sales_train.item_price > 178171) | \
+                          (sales_train.item_cnt_day > 250) | \
                           (sales_train.item_cnt_day < -1e3)
         sales_train.drop(sales_train.loc[drop_conditions].index, inplace=True)
         sales_train.reset_index(drop=True, inplace=True)
