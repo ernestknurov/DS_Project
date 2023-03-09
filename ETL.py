@@ -79,7 +79,7 @@ class ETL:
         test.reset_index(drop=True, inplace=True)
 
         # -Sales train
-        sales_train.drop(columns='date_block_num', inplace=True)
+        # sales_train.drop(columns='date_block_num', inplace=True)
         sales_train['date'] = pd.to_datetime(sales_train['date'], dayfirst=True)
         sales_train.drop_duplicates(inplace=True, ignore_index=True)
         drop_conditions = (~sales_train.item_id.isin(items['item_id'])) | \
@@ -105,7 +105,6 @@ class ETL:
         pd.to_pickle(sales_train, path.join(new_dir, "sales_train.pickle"))
         pd.to_pickle(shops, path.join(new_dir, "shops.pickle"))
         pd.to_pickle(test, path.join(new_dir, "test.pickle"))
-
         return True
 
 
